@@ -1,14 +1,16 @@
-# kickstart.nvim
+# iOS Development Neovim Configuration
 
 ## Introduction
 
-A starting point for Neovim that is:
+A comprehensive Neovim configuration for iOS and macOS development that provides:
 
-* Small
-* Single-file
-* Completely Documented
+* **Intelligent code completion** with sourcekit-lsp and xcode-build-server
+* **Integrated build/run/test** functionality via xcodebuild.nvim
+* **Full debugging support** with lldb integration
+* **Code formatting and linting** with SwiftFormat and SwiftLint
+* **90%+ Xcode replacement** for daily iOS development
 
-**NOT** a Neovim distribution, but instead a starting point for your configuration.
+Based on kickstart.nvim with specialized iOS development plugins and configurations.
 
 ## Installation
 
@@ -21,18 +23,138 @@ If you are experiencing issues, please make sure you have the latest versions.
 
 ### Install External Dependencies
 
-External Requirements:
+#### Basic Requirements:
 - Basic utils: `git`, `make`, `unzip`, C Compiler (`gcc`)
 - [ripgrep](https://github.com/BurntSushi/ripgrep#installation),
   [fd-find](https://github.com/sharkdp/fd#installation)
 - Clipboard tool (xclip/xsel/win32yank or other depending on the platform)
 - A [Nerd Font](https://www.nerdfonts.com/): optional, provides various icons
   - if you have it set `vim.g.have_nerd_font` in `init.lua` to true
-- Emoji fonts (Ubuntu only, and only if you want emoji!) `sudo apt install fonts-noto-color-emoji`
-- Language Setup:
-  - If you want to write Typescript, you need `npm`
-  - If you want to write Golang, you will need `go`
-  - etc.
+
+#### iOS Development Requirements:
+- **Xcode** (for iOS SDK, simulators, and sourcekit-lsp)
+- **Homebrew** (for installing development tools)
+
+#### Install iOS Development Tools:
+```bash
+# Install core iOS development tools
+brew install xcode-build-server swiftlint swiftformat xcbeautify
+
+# Create tools directory and download codelldb debugger
+mkdir -p ~/tools
+cd ~/tools
+curl -L https://github.com/vadimcn/codelldb/releases/download/v1.11.5/codelldb-darwin-arm64.vsix -o codelldb.vsix
+unzip -q codelldb.vsix
+```
+
+#### Tool Descriptions:
+- **xcode-build-server**: Bridges sourcekit-lsp with Xcode projects for intelligent completion
+- **SwiftLint**: Swift code linting and style checking
+- **SwiftFormat**: Automatic Swift code formatting
+- **xcbeautify**: Pretty formatting for xcodebuild output
+- **codelldb**: Debug adapter for Swift/iOS debugging
+
+## Project Setup
+
+### For New iOS Projects
+
+1. **Navigate to your iOS project directory**
+2. **Configure xcode-build-server** (run once per project):
+   ```bash
+   # For workspace projects:
+   xcode-build-server config -scheme <YOUR_SCHEME> -workspace *.xcworkspace
+   
+   # For single project files:
+   xcode-build-server config -scheme <YOUR_SCHEME> -project *.xcodeproj
+   ```
+3. **Open Neovim in the project root**:
+   ```bash
+   nvim .
+   ```
+
+### Verify Setup
+
+1. Open any Swift file in your project
+2. Run `:LspInfo` to verify sourcekit-lsp is attached
+3. Try code completion with `<C-Space>`
+4. Run `:XcodebuildPicker` to configure build settings
+
+## Key Features
+
+### Code Intelligence
+- **Smart completion** with iOS/macOS SDK awareness
+- **Go to definition/declaration** (`gd`, `gD`)
+- **Find references** (`gr`)
+- **Symbol search** via Telescope
+- **Hover documentation** (`K`)
+- **Code actions** (`<leader>ca`)
+- **Smart rename** (`<leader>rn`)
+
+### Build & Test Integration
+
+> **First Time Setup**: Before using build commands, run `:XcodebuildSetup` or press `<leader>X` to configure your project settings.
+
+- **Build project**: `<leader>xb`
+- **Build & run**: `<leader>xr`
+- **Run tests**: `<leader>xt`
+- **Run test class**: `<leader>xT`
+- **Select device/simulator**: `<leader>xd`
+- **Toggle logs**: `<leader>xl`
+- **All actions**: `<leader>X`
+
+### Debugging
+- **Build & debug**: `<leader>dd`
+- **Debug without build**: `<leader>dr`
+- **Debug tests**: `<leader>dt`
+- **Toggle breakpoint**: `<leader>b`
+- **Step over**: `<F2>`
+- **Step into**: `<F1>`
+- **Continue**: `<F5>`
+
+### Code Quality
+- **Format code**: `<leader>mp` (auto-format on save)
+- **Lint file**: `<leader>ml` (auto-lint on change)
+- **Code coverage**: `<leader>xc` (toggle), `<leader>xC` (report)
+
+## Troubleshooting
+
+### LSP Not Working
+1. Ensure you're in the project root directory
+2. Check `:LspInfo` for sourcekit-lsp status
+3. Rebuild project in Xcode once
+4. Re-run `xcode-build-server config` command
+5. Restart Neovim
+
+### Build/Run Issues
+1. Ensure Xcode project builds successfully first
+2. Check simulator availability with `xcrun simctl list`
+3. Use `:XcodebuildPicker` to reconfigure settings
+4. Check logs with `:XcodebuildToggleLogs`
+
+### Debugging Issues
+1. Verify codelldb path: `~/tools/extension/adapter/codelldb`
+2. Ensure app builds and runs normally first
+3. Check that scheme supports debugging
+4. Try `:XcodebuildSelectDevice` to change target
+
+## Recommended Workflow
+
+1. **Start**: Open project root in Neovim
+2. **Initial Setup**: Run `:XcodebuildSetup` or press `<leader>X` (Space + Shift + X) to configure project
+3. **Configure**: Use `:XcodebuildPicker` or `<leader>X` to set scheme/device as needed
+4. **Code**: Use LSP features for intelligent editing
+5. **Test**: Use `<leader>xt` for quick test runs
+6. **Debug**: Use `<leader>dd` for debugging sessions
+7. **Build**: Use `<leader>xr` for build & run cycles
+
+## Project Structure Recommendations
+
+For best results, consider using:
+- **XcodeGen** or **Tuist** instead of .xcodeproj files
+- **SwiftLint** configuration file (`.swiftlint.yml`)
+- **SwiftFormat** configuration file (`.swiftformat`)
+
+This setup provides 90%+ of Xcode functionality within Neovim!
 
 > [!NOTE]
 > See [Install Recipes](#Install-Recipes) for additional Windows and Linux specific notes

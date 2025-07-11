@@ -782,6 +782,33 @@ require('lazy').setup({
     },
   },
 
+  -- AI-powered code completion with Supermaven
+  -- Supermaven provides intelligent code suggestions and completions
+  -- Works alongside blink.cmp to enhance coding productivity
+  { 
+    'supermaven-inc/supermaven-nvim',
+    config = function()
+      require('supermaven-nvim').setup({
+        -- Keymaps for Supermaven suggestions
+        keymaps = {
+          accept_suggestion = '<Tab>',    -- Accept the full suggestion
+          clear_suggestion = '<C-]>',     -- Clear/dismiss current suggestion
+          accept_word = '<C-j>',          -- Accept only the next word of suggestion
+        },
+        -- Color configuration for suggestion text
+        color = {
+          suggestion_color = '#808080',   -- Gray color for suggestions
+          cterm = 244,                    -- Terminal color code
+        },
+        -- Logging configuration
+        log_level = 'info',               -- Set to 'off' to disable logging
+        -- Integration settings
+        disable_inline_completion = false, -- Keep inline completions enabled
+        disable_keymaps = false,          -- Use the built-in keymaps
+      })
+    end,
+  },
+
   { -- Autocompletion
     'saghen/blink.cmp',
     event = 'VimEnter',
@@ -989,7 +1016,7 @@ require('lazy').setup({
   --    This is the easiest way to modularize your config.
   --
   --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
-  -- { import = 'custom.plugins' },
+  { import = 'custom.plugins' },
   --
   -- For additional information with loading, sourcing and examples see `:help lazy.nvim-🔌-plugin-spec`
   -- Or use telescope!
