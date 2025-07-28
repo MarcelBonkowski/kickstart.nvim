@@ -20,7 +20,7 @@ return {
       },
       format_on_save = function(bufnr)
         -- Disable format_on_save for certain filetypes
-        local disable_filetypes = { c = true, cpp = true }
+        local disable_filetypes = { c = true, cpp = true, swift = true }
         return {
           timeout_ms = 500,
           lsp_fallback = not disable_filetypes[vim.bo[bufnr].filetype],
