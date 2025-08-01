@@ -7,7 +7,6 @@ return {
       local lint = require 'lint'
       lint.linters_by_ft = {
         markdown = { 'markdownlint' },
-        swift = { 'swiftlint' },
       }
 
       -- Configure markdownlint to use global config for all files
@@ -16,6 +15,8 @@ return {
         vim.fn.expand('~/.markdownlint.json'),
         '--'
       }
+
+
 
       -- To allow other plugins to add linters to require('lint').linters_by_ft,
       -- instead set linters_by_ft like this:
