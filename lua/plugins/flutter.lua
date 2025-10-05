@@ -1,7 +1,7 @@
 return {
   {
     'akinsho/flutter-tools.nvim',
-    lazy = false,
+    event = 'VeryLazy',
     dependencies = {
       'nvim-lua/plenary.nvim',
       'stevearc/dressing.nvim',
@@ -21,6 +21,12 @@ return {
         debugger = {
           enabled = false,
           run_via_dap = false,
+        },
+        flutter_path = nil,
+        flutter_lookup_cmd = 'which flutter',
+        fvm = false,
+        widget_guides = {
+          enabled = false,
         },
         flutter_path = nil,
         flutter_lookup_cmd = nil,
@@ -53,8 +59,12 @@ return {
             background = false,
             background_color = nil,
             foreground = false,
-            virtual_text = true,
+            virtual_text = false,
             virtual_text_str = '■',
+          },
+          flags = {
+            debounce_text_changes = 500,
+            allow_incremental_sync = true,
           },
           on_attach = function(_, bufnr)
             vim.keymap.set('n', '<leader>fc', function()
@@ -74,11 +84,31 @@ return {
             return config.capabilities
           end,
           settings = {
-            showTodos = true,
+            showTodos = false,
             completeFunctionCalls = true,
-            analysisExcludedFolders = { vim.fn.expand('$HOME/AppData/Local/Pub/Cache') },
+            analysisExcludedFolders = { 
+              vim.fn.expand('$HOME/AppData/Local/Pub/Cache'),
+              vim.fn.expand('$HOME/.pub-cache'),
+              vim.fn.expand('$HOME/fvm'),
+              'build/',
+              '.dart_tool/',
+              '.packages',
+              'android/',
+              'ios/',
+              'linux/',
+              'macos/',
+              'web/',
+              'windows/',
+            },
             renameFilesWithClasses = 'prompt',
             enableSnippets = true,
+            lineLength = 160,
+            includeBuiltInLints = false,
+            updateImportsOnRename = false,
+            suggestFromUnimportedLibraries = false,
+            closingLabels = false,
+            outline = false,
+            flutterOutline = false,
           }
         }
       })

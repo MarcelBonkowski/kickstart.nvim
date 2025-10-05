@@ -1,6 +1,10 @@
 -- Suppress deprecated warnings from plugins
 vim.deprecate = function() end
 
+-- LSP Performance Settings
+vim.opt.updatetime = 300
+vim.opt.timeoutlen = 500
+
 -- Set <space> as the leader key
 -- See `:help mapleader`
 --  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
@@ -71,3 +75,23 @@ vim.o.foldmethod = 'expr'
 vim.o.foldexpr = 'nvim_treesitter#foldexpr()'
 vim.o.foldlevel = 99
 vim.o.foldenable = true
+
+-- Configure diagnostics for better performance
+vim.diagnostic.config({
+  update_in_insert = false,
+  underline = false,
+  virtual_text = {
+    spacing = 4,
+    source = 'if_many',
+    prefix = '●',
+  },
+  severity_sort = true,
+  signs = {
+    text = {
+      [vim.diagnostic.severity.ERROR] = '✘',
+      [vim.diagnostic.severity.WARN] = '▲',
+      [vim.diagnostic.severity.HINT] = '⚑',
+      [vim.diagnostic.severity.INFO] = '»',
+    },
+  },
+})
