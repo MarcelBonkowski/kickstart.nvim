@@ -29,41 +29,41 @@ return {
       return ''
     end
 
-  local colors = {
-	surface0 = '#45475a',    -- palette 0
-	red      = '#f38ba8',    -- palette 1, 9
-	green    = '#a6e3a1',    -- palette 2, 10
-	yellow   = '#f9e2af',    -- palette 3, 11
-	blue     = '#89b4fa',    -- palette 4, 12
-	pink     = '#f5c2e7',    -- palette 5, 13
-	teal     = '#94e2d5',    -- palette 6, 14
-	subtext1 = '#a6adc8',    -- palette 7
-	surface1 = '#585b70',    -- palette 8
-	subtext0 = '#bac2de',    -- palette 15
-	base     = '#1e1e2e',    -- background
-	text     = '#cdd6f4',    -- foreground
-	rosewater = '#f5e0dc',   -- cursor-color
-	mantle   = '#11111b',    -- cursor-text
-	surface2 = '#353749',    -- selection-background
-  }
+    local colors = {
+      surface0 = '#45475a', -- palette 0
+      red = '#f38ba8', -- palette 1, 9
+      green = '#a6e3a1', -- palette 2, 10
+      yellow = '#f9e2af', -- palette 3, 11
+      blue = '#89b4fa', -- palette 4, 12
+      pink = '#f5c2e7', -- palette 5, 13
+      teal = '#94e2d5', -- palette 6, 14
+      subtext1 = '#a6adc8', -- palette 7
+      surface1 = '#585b70', -- palette 8
+      subtext0 = '#bac2de', -- palette 15
+      base = '#1e1e2e', -- background
+      text = '#cdd6f4', -- foreground
+      rosewater = '#f5e0dc', -- cursor-color
+      mantle = '#11111b', -- cursor-text
+      surface2 = '#353749', -- selection-background
+    }
 
-  local bubbles_theme = {
-    normal = {
-      a = { fg = colors.base, bg = colors.pink },
-      b = { fg = colors.text, bg = colors.surface0 },
-      c = { fg = colors.text },
-    },
+    local bubbles_theme = {
+      normal = {
+        a = { fg = colors.base, bg = colors.pink },
+        b = { fg = colors.text, bg = colors.surface0 },
+        c = { fg = colors.text },
+      },
 
-    insert = { a = { fg = colors.base, bg = colors.blue } },
-    visual = { a = { fg = colors.base, bg = colors.teal } },
-    replace = { a = { fg = colors.base, bg = colors.red } },
+      insert = { a = { fg = colors.base, bg = colors.blue } },
+      visual = { a = { fg = colors.base, bg = colors.teal } },
+      replace = { a = { fg = colors.base, bg = colors.red } },
 
-    inactive = {
-      a = { fg = colors.subtext1, bg = colors.surface1 },
-      b = { fg = colors.subtext1, bg = colors.surface1 },
-      c = { fg = colors.subtext1 },
-    },
-  }
+      inactive = {
+        a = { fg = colors.subtext1, bg = colors.surface1 },
+        b = { fg = colors.subtext1, bg = colors.surface1 },
+        c = { fg = colors.subtext1 },
+      },
+    }
 
     require('lualine').setup {
       options = {
@@ -79,7 +79,7 @@ return {
         always_divide_middle = true,
         globalstatus = false,
         refresh = {
-          statusline = 200,
+          statusline = 1000,
           tabline = 1000,
           winbar = 1000,
         },
@@ -90,9 +90,12 @@ return {
           -- Errors
           {
             function()
-              local lsp_diagnostics = vim.diagnostic.get(0)
-              local errors = 0
+              local ok, lsp_diagnostics = pcall(vim.diagnostic.get, 0)
+              if not ok then
+                return ''
+              end
 
+              local errors = 0
               for _, diagnostic in ipairs(lsp_diagnostics) do
                 if diagnostic.severity == vim.diagnostic.severity.ERROR then
                   errors = errors + 1
@@ -112,11 +115,14 @@ return {
               return errors > 0 and ('󰅚 ' .. errors) or ''
             end,
             color = { fg = '#f38ba8' }, -- red
-            separator = { left = '', right = '' },
+            separator = { right = '' },
             cond = function()
-              local lsp_diagnostics = vim.diagnostic.get(0)
-              local errors = 0
+              local ok, lsp_diagnostics = pcall(vim.diagnostic.get, 0)
+              if not ok then
+                return false
+              end
 
+              local errors = 0
               for _, diagnostic in ipairs(lsp_diagnostics) do
                 if diagnostic.severity == vim.diagnostic.severity.ERROR then
                   errors = errors + 1
@@ -138,9 +144,12 @@ return {
           -- Warnings
           {
             function()
-              local lsp_diagnostics = vim.diagnostic.get(0)
-              local warnings = 0
+              local ok, lsp_diagnostics = pcall(vim.diagnostic.get, 0)
+              if not ok then
+                return ''
+              end
 
+              local warnings = 0
               for _, diagnostic in ipairs(lsp_diagnostics) do
                 if diagnostic.severity == vim.diagnostic.severity.WARN then
                   warnings = warnings + 1
@@ -160,11 +169,14 @@ return {
               return warnings > 0 and ('󰀪 ' .. warnings) or ''
             end,
             color = { fg = '#f9e2af' }, -- yellow
-            separator = { left = '', right = '' },
+            separator = { right = '' },
             cond = function()
-              local lsp_diagnostics = vim.diagnostic.get(0)
-              local warnings = 0
+              local ok, lsp_diagnostics = pcall(vim.diagnostic.get, 0)
+              if not ok then
+                return false
+              end
 
+              local warnings = 0
               for _, diagnostic in ipairs(lsp_diagnostics) do
                 if diagnostic.severity == vim.diagnostic.severity.WARN then
                   warnings = warnings + 1
@@ -186,9 +198,12 @@ return {
           -- Info
           {
             function()
-              local lsp_diagnostics = vim.diagnostic.get(0)
-              local info = 0
+              local ok, lsp_diagnostics = pcall(vim.diagnostic.get, 0)
+              if not ok then
+                return ''
+              end
 
+              local info = 0
               for _, diagnostic in ipairs(lsp_diagnostics) do
                 if diagnostic.severity == vim.diagnostic.severity.INFO then
                   info = info + 1
@@ -198,11 +213,14 @@ return {
               return info > 0 and ('󰋽 ' .. info) or ''
             end,
             color = { fg = '#89b4fa' }, -- light blue
-            separator = { left = '', right = '' },
+            separator = { right = '' },
             cond = function()
-              local lsp_diagnostics = vim.diagnostic.get(0)
-              local info = 0
+              local ok, lsp_diagnostics = pcall(vim.diagnostic.get, 0)
+              if not ok then
+                return false
+              end
 
+              local info = 0
               for _, diagnostic in ipairs(lsp_diagnostics) do
                 if diagnostic.severity == vim.diagnostic.severity.INFO then
                   info = info + 1

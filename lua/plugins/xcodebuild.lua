@@ -22,6 +22,9 @@ return {
             vim.cmd('copen')
           end,
         },
+        nvim_lsp = {
+          enabled = true,
+        },
       },
     })
 

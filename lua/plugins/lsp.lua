@@ -6,8 +6,8 @@ return {
     { 'antosha417/nvim-lsp-file-operations', config = true },
   },
   config = function()
-    local lspconfig = require('lspconfig')
-    local cmp_nvim_lsp = require('cmp_nvim_lsp')
+    local lspconfig = require 'lspconfig'
+    local cmp_nvim_lsp = require 'cmp_nvim_lsp'
     local capabilities = cmp_nvim_lsp.default_capabilities()
 
     local opts = { noremap = true, silent = true }
@@ -53,10 +53,6 @@ return {
       opts.desc = 'Restart LSP'
       vim.keymap.set('n', '<leader>rs', ':LspRestart<CR>', opts)
     end
-
-    lspconfig['sourcekit'].setup({
-      capabilities = capabilities,
-      on_attach = on_attach,
-    })
   end,
 }
+
