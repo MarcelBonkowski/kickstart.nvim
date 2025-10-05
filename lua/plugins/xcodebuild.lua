@@ -12,6 +12,17 @@ return {
       logs = {
         logs_formatter = 'xcbeautify --disable-colored-output',
       },
+      integrations = {
+        nvim_dap = {
+          enabled = true,
+        },
+        quickfix = {
+          enabled = true,
+          on_build_failed = function()
+            vim.cmd('copen')
+          end,
+        },
+      },
     })
 
     -- Build and Run
