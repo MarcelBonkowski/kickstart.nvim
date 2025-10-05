@@ -18,6 +18,8 @@ return {
       window = {
         mappings = {
           ['\\'] = 'close_window',
+          ['<space>'] = 'open',
+          ['<cr>'] = 'open',
         },
       },
     },
