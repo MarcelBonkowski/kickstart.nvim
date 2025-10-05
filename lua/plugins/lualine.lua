@@ -29,33 +29,41 @@ return {
       return ''
     end
 
-    local colors = {
-      blue = '#89b4fa',
-      cyan = '#94e2d5',
-      black = '#1e1e2e',
-      white = '#cdd6f4',
-      red = '#f38ba8',
-      violet = '#cba6f7',
-      grey = '#313244',
-    }
+  local colors = {
+	surface0 = '#45475a',    -- palette 0
+	red      = '#f38ba8',    -- palette 1, 9
+	green    = '#a6e3a1',    -- palette 2, 10
+	yellow   = '#f9e2af',    -- palette 3, 11
+	blue     = '#89b4fa',    -- palette 4, 12
+	pink     = '#f5c2e7',    -- palette 5, 13
+	teal     = '#94e2d5',    -- palette 6, 14
+	subtext1 = '#a6adc8',    -- palette 7
+	surface1 = '#585b70',    -- palette 8
+	subtext0 = '#bac2de',    -- palette 15
+	base     = '#1e1e2e',    -- background
+	text     = '#cdd6f4',    -- foreground
+	rosewater = '#f5e0dc',   -- cursor-color
+	mantle   = '#11111b',    -- cursor-text
+	surface2 = '#353749',    -- selection-background
+  }
 
-    local bubbles_theme = {
-      normal = {
-        a = { fg = colors.black, bg = colors.violet },
-        b = { fg = colors.white, bg = colors.grey },
-        c = { fg = colors.white },
-      },
+  local bubbles_theme = {
+    normal = {
+      a = { fg = colors.base, bg = colors.pink },
+      b = { fg = colors.text, bg = colors.surface0 },
+      c = { fg = colors.text },
+    },
 
-      insert = { a = { fg = colors.black, bg = colors.blue } },
-      visual = { a = { fg = colors.black, bg = colors.cyan } },
-      replace = { a = { fg = colors.black, bg = colors.red } },
+    insert = { a = { fg = colors.base, bg = colors.blue } },
+    visual = { a = { fg = colors.base, bg = colors.teal } },
+    replace = { a = { fg = colors.base, bg = colors.red } },
 
-      inactive = {
-        a = { fg = colors.white, bg = colors.black },
-        b = { fg = colors.white, bg = colors.black },
-        c = { fg = colors.white },
-      },
-    }
+    inactive = {
+      a = { fg = colors.subtext1, bg = colors.surface1 },
+      b = { fg = colors.subtext1, bg = colors.surface1 },
+      c = { fg = colors.subtext1 },
+    },
+  }
 
     require('lualine').setup {
       options = {
