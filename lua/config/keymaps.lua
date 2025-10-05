@@ -36,3 +36,15 @@ vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper win
 -- vim.keymap.set("n", "<C-S-l>", "<C-w>L", { desc = "Move window to the right" })
 -- vim.keymap.set("n", "<C-S-j>", "<C-w>J", { desc = "Move window to the lower" })
 -- vim.keymap.set("n", "<C-S-k>", "<C-w>K", { desc = "Move window to the upper" })
+
+-- Flutter Development Keymaps
+vim.keymap.set('n', '<leader>fr', ':FlutterRun<CR>', { desc = 'Flutter Run' })
+vim.keymap.set('n', '<leader>fq', ':FlutterQuit<CR>', { desc = 'Flutter Quit' })
+vim.keymap.set('n', '<leader>fh', ':FlutterHotReload<CR>', { desc = 'Flutter Hot Reload' })
+vim.keymap.set('n', '<leader>fR', ':FlutterRestart<CR>', { desc = 'Flutter Restart' })
+vim.keymap.set('n', '<leader>fd', ':FlutterDevices<CR>', { desc = 'Flutter Devices' })
+vim.keymap.set('n', '<leader>fe', ':FlutterEmulators<CR>', { desc = 'Flutter Emulators' })
+vim.keymap.set('n', '<leader>fo', ':FlutterOutlineToggle<CR>', { desc = 'Flutter Outline Toggle' })
+vim.keymap.set('n', '<leader>ft', ':FlutterDevTools<CR>', { desc = 'Flutter DevTools' })
+vim.keymap.set('n', '<leader>fl', ':FlutterLogClear<CR>', { desc = 'Flutter Log Clear' })
+vim.keymap.set('n', '<leader>fp', ':PubspecAssistAddDependency<CR>', { desc = 'Add Dependency' })
