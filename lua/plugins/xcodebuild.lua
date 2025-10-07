@@ -26,6 +26,40 @@ return {
           enabled = true,
         },
       },
+      commands = {
+        extra_build_args = {},
+        extra_test_args = {},
+        project_search_max_depth = 3,
+        cache_disabled = false,
+        logs = {
+          auto_close_on_app_launch = false,
+          auto_close_on_success = true,
+          auto_focus = true,
+          auto_open_on_failed_tests = true,
+          auto_open_on_success_tests = false,
+          filetype = 'objc',
+          open_command = 'silent botright 20split {path}',
+          logs_formatter = 'xcbeautify --disable-colored-output',
+          only_summary = false,
+          show_warnings = true,
+          notify = function(message, severity)
+            local silent_commands = {
+              'git status --porcelain=v1',
+              'git diff --name-only --cached',
+              'git add',
+              'git reset',
+            }
+            
+            for _, cmd in ipairs(silent_commands) do
+              if string.find(message, cmd, 1, true) then
+                return
+              end
+            end
+            
+            vim.notify(message, severity)
+          end,
+        },
+      },
     })
 
     -- Build and Run
