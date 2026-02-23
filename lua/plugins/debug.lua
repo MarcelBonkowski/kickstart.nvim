@@ -7,9 +7,9 @@ return {
   },
   config = function()
     local xcodebuild = require('xcodebuild.integrations.dap')
-    local codelldbPath = os.getenv('HOME') .. '/tools/extension/adapter/codelldb'
 
-    xcodebuild.setup(codelldbPath)
+    -- Setup xcodebuild DAP integration (loadBreakpoints defaults to true)
+    xcodebuild.setup()
 
     -- Debug keymaps
     vim.keymap.set('n', '<leader>dd', xcodebuild.build_and_debug, { desc = 'Build & Debug' })
