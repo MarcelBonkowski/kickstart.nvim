@@ -53,6 +53,14 @@ return {
       opts.desc = 'Restart LSP'
       vim.keymap.set('n', '<leader>rs', ':LspRestart<CR>', opts)
     end
+
+    -- Swift / Objective-C: sourcekit-lsp (provides completion, hover, go-to-def, etc.)
+    -- Requires: Xcode or `brew install sourcekit-lsp`; for Xcode projects run
+    --   xcode-build-server config -scheme <SCHEME> -project *.xcodeproj (or -workspace *.xcworkspace)
+    lspconfig.sourcekit.setup({
+      capabilities = capabilities,
+      on_attach = on_attach,
+    })
   end,
 }
 
