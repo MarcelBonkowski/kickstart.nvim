@@ -125,6 +125,12 @@ unzip -q codelldb.vsix
 4. Re-run `xcode-build-server config` command
 5. Restart Neovim
 
+### SourceKit: "Loading the standard library failed" (-32001)
+This usually means SourceKit can't find the Swift toolchain/SDK. The config uses `xcrun sourcekit-lsp` so the active Xcode is used. If it still fails:
+1. **Xcode project**: Run `xcode-build-server config -scheme <SCHEME> -project *.xcodeproj` (or `-workspace *.xcworkspace`) in the project root so SourceKit gets the right `-sdk` and `-target`.
+2. **Active Xcode**: Run `xcode-select -p` and ensure it points to the Xcode you use (e.g. `sudo xcode-select -s /Applications/Xcode.app`).
+3. **Open in Xcode once**: Building/opening the project in Xcode can fix toolchain caches; then restart Neovim.
+
 ### Build/Run Issues
 1. Ensure Xcode project builds successfully first
 2. Check simulator availability with `xcrun simctl list`
