@@ -131,6 +131,21 @@ This usually means SourceKit can't find the Swift toolchain/SDK. The config uses
 2. **Active Xcode**: Run `xcode-select -p` and ensure it points to the Xcode you use (e.g. `sudo xcode-select -s /Applications/Xcode.app`).
 3. **Open in Xcode once**: Building/opening the project in Xcode can fix toolchain caches; then restart Neovim.
 
+### Swift LSP Issues (Incomplete Completions, Missing Symbols, etc.)
+If you're experiencing issues with Swift LSP such as incomplete completions or missing symbols:
+1. **Rebuild xcode-build-server**: Sometimes rebuilding the build server configuration helps:
+   ```bash
+   xcode-build-server config -scheme <YOUR_SCHEME> -workspace *.xcworkspace
+   # or for projects: -project *.xcodeproj
+   ```
+2. **Clean Derived Data and rebuild in Xcode**: The LSP relies on Xcode's build index, so you may need to:
+   - Delete derived data: `rm -rf ~/Library/Developer/Xcode/DerivedData/*`
+   - Open project in Xcode
+   - Clean build folder: Product → Clean Build Folder (⇧⌘K)
+   - Rebuild the project (⌘B)
+   - Let Xcode finish building its index (watch the progress bar in Xcode's activity viewer)
+3. **Restart Neovim** after the index is rebuilt
+
 ### Build/Run Issues
 1. Ensure Xcode project builds successfully first
 2. Check simulator availability with `xcrun simctl list`
