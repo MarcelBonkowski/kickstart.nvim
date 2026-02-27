@@ -133,18 +133,20 @@ This usually means SourceKit can't find the Swift toolchain/SDK. The config uses
 
 ### Swift LSP Issues (Incomplete Completions, Missing Symbols, etc.)
 If you're experiencing issues with Swift LSP such as incomplete completions or missing symbols:
-1. **Rebuild xcode-build-server**: Sometimes rebuilding the build server configuration helps:
+1. **Verify scheme matches Xcode**: Ensure the scheme used in `xcode-build-server config` matches the scheme you're actively building in Xcode. The LSP uses the same build index as Xcode, so they must use the same scheme.
+2. **Rebuild xcode-build-server**: Sometimes rebuilding the build server configuration helps:
    ```bash
    xcode-build-server config -scheme <YOUR_SCHEME> -workspace *.xcworkspace
    # or for projects: -project *.xcodeproj
    ```
-2. **Clean Derived Data and rebuild in Xcode**: The LSP relies on Xcode's build index, so you may need to:
+   Make sure `<YOUR_SCHEME>` is the same scheme you use in Xcode.
+3. **Clean Derived Data and rebuild in Xcode**: The LSP relies on Xcode's build index, so you may need to:
    - Delete derived data: `rm -rf ~/Library/Developer/Xcode/DerivedData/*`
    - Open project in Xcode
    - Clean build folder: Product → Clean Build Folder (⇧⌘K)
-   - Rebuild the project (⌘B)
+   - Rebuild the project (⌘B) using the same scheme
    - Let Xcode finish building its index (watch the progress bar in Xcode's activity viewer)
-3. **Restart Neovim** after the index is rebuilt
+4. **Restart Neovim** after the index is rebuilt
 
 ### Build/Run Issues
 1. Ensure Xcode project builds successfully first
