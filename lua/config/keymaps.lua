@@ -48,3 +48,5 @@ vim.keymap.set('n', '<leader>fo', ':FlutterOutlineToggle<CR>', { desc = 'Flutter
 vim.keymap.set('n', '<leader>ft', ':FlutterDevTools<CR>', { desc = 'Flutter DevTools' })
 vim.keymap.set('n', '<leader>fl', ':FlutterLogClear<CR>', { desc = 'Flutter Log Clear' })
 vim.keymap.set('n', '<leader>fp', ':PubspecAssistAddDependency<CR>', { desc = 'Add Dependency' })
+vim.keymap.set('n', '<A-j>', ':m .+1<CR>==', { desc = 'Move line up' })
+vim.keymap.set('n', '<A-k>', ':m .-2<CR>==', { desc = 'Move line down' })
